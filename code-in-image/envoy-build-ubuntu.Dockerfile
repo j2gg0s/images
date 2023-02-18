@@ -12,11 +12,12 @@ RUN apt update && \
 # init bazel
 RUN bazel
 
-RUN git clone https://github.com/j2gg0s/vim.git /root/.vim
-
 RUN git clone https://github.com/envoyproxy/envoy.git /root/envoy
 WORKDIR /root/envoy
 
 ARG COMMIT_SHA=82e1102d6dff2863f2db652f84a92a6463fc3bd6
 RUN git checkout ${COMMIT_SHA} && \
     bazel build envoy
+
+RUN chsh -s /bin/sh &&
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc

@@ -11,10 +11,27 @@ build-envoy:
 		--progress=plain .
 
 .PHONY: push-envoy
-push-envy:
+push-envoy:
 	docker push $(REGISTRY)/envoy-build-ubuntu:$(ENVOY_SHA)
 
 .PHONY: pull-envoy
-pull-envy:
+pull-envoy:
 	docker pull $(REGISTRY)/envoy-build-ubuntu:$(ENVOY_SHA)
 	docker image tag $(REGISTRY)/envoy-build-ubuntu:$(ENVOY_SHA) envoy-build-ubuntu
+
+.PHONY: run-image
+run-image:
+	docker run -ti \
+		--platform linux/amd64 \
+		-v $HOME/.vim:/root/.vim \
+		-v $HOME/other/src/github.com/j2gg0s/images:/root/images \
+		--name code-envoy \
+		envoy-build-ubuntu /bin/zsh
+
+.PHONY: run-container
+run-container:
+	docker start run-container
+
+.PHONY: exec-container
+	docker exec -ti run-container /bin/zsh
+
