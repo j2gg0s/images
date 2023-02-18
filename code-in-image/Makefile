@@ -19,19 +19,23 @@ pull-envoy:
 	docker pull $(REGISTRY)/envoy-build-ubuntu:$(ENVOY_SHA)
 	docker image tag $(REGISTRY)/envoy-build-ubuntu:$(ENVOY_SHA) envoy-build-ubuntu
 
-.PHONY: run-image
-run-image:
+.PHONY: run-envoy
+run-envoy:
 	docker run -ti \
-		--platform linux/amd64 \
-		-v $HOME/.vim:/root/.vim \
-		-v $HOME/other/src/github.com/j2gg0s/images:/root/images \
+		-v $(HOME)/.vim:/root/.vim \
+		-v $(HOME)/other/src/github.com/j2gg0s/images:/root/images \
 		--name code-envoy \
 		envoy-build-ubuntu /bin/zsh
 
-.PHONY: run-container
-run-container:
-	docker start run-container
+.PHONY: start-envoy
+start-envoy:
+	docker start code-envoy
 
-.PHONY: exec-container
-	docker exec -ti run-container /bin/zsh
+.PHONY: exec-envoy
+exec-envoy:
+	docker exec -ti code-envoy /bin/zsh
 
+.PHONY: clean-envoy
+clean-envoy:
+	docker stop code-envoy
+	docker rm code-envoy
