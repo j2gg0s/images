@@ -24,7 +24,7 @@ run-envoy:
 	docker run -ti \
 		--platform linux/amd64 \
 		-v $(HOME)/.vim:/root/.vim \
-		-v $(HOME)/other/src/github.com/j2gg0s/images:/root/images \
+		-v $(HOME)/images:/root/images \
 		--name code-envoy \
 		envoy-build-ubuntu /bin/zsh
 
